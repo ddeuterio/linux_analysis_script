@@ -39,6 +39,9 @@ linux_version=$(cat /proc/version)
 info_cpu=$(lscpu)
 echo "$info_os\n$div\n$linux_version$div\n$info_cpu" > systeminfo_$date.txt
 
+echo "Disks analysis"
+lsblk > disks_$date.txt
+
 echo "Scheduled tasks"
 for user in $(cut -f1 -d : /etc/passwd); do
 	s=$(crontab -u $user -l);
