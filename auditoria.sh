@@ -19,18 +19,30 @@ netstat -r > routetable_$date.txt
 echo "Host analysis"
 host_name=$(cat /etc/hostname)
 host_o=$(cat /etc/hosts)
-echo "$host_name \n $div \n $host_o" > host_info_$date.txt
+echo "$host_name\n$div\n$host_o" > host_info_$date.txt
+
+echo "Users"
+num_users=$(wc -l /etc/passwd | cut -f 1 -d " ")
+echo "$num_users were found\nuser_name:uid:gid" > users_$date.txt
+for user in $(cut -f 1,3,4 -d : /etc/passwd); do
+	echo "$user" >> users_$date.txt;
+done
+
+echo "Groups"
+num_groups=$(wc -l /etc/group | cut -f 1 -d " ")
+echo "$num_groups groups were found\n" > groups_$date.txt
+cat /etc/group >> groups_$date.txt
 
 echo "System analysis"
 info_os=$(lsb_release -a)
 linux_version=$(cat /proc/version)
 info_cpu=$(lscpu)
-echo "$info_so \n $div \n $linux_version $div \n $info_cpu" > systeminfo_$date.txt
+echo "$info_os\n$div\n$linux_version$div\n$info_cpu" > systeminfo_$date.txt
 
 echo "Scheduled tasks"
 for user in $(cut -f1 -d : /etc/passwd); do
 	s=$(crontab -u $user -l);
-	echo "$user \n $s $div" >> schd_tasks_$date.txt;
+	echo "$user\n$s$div" >> schd_tasks_$date.txt;
 done
 
 echo "Directory Analysis"
