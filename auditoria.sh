@@ -1,6 +1,8 @@
 #!/bin/bash
 date=$(date +%d%m%Y-%H%M)
 div="**************************"
+mkdir results
+cd results
 echo "Ports and connections analysis"
 lsusb > ports_$date.txt
 lspci > pci_$date.txt
