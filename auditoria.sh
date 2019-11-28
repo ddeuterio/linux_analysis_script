@@ -8,13 +8,10 @@ lsusb > ports_$date.txt
 lspci > pci_$date.txt
 
 echo "UDP/TCP connections"
-netstat -t -u -l > active_ports_$date.txt
-
-echo "Interface list"
-netstat -i > interfaces_$date.txt
-
-echo "Route tables"
-netstat -r > routetable_$date.txt
+connections=$(netstat -t -u -l)
+interfaces=$(netstat -i)
+routetable=$(netstat -r)
+echo "UDP/TCP connections\n$connections\n$div\nInterface lists\n$interfaces\n$div\nRoute table\n$routetable\n" > host_network_$date.txt
 
 echo "Host analysis"
 host_name=$(cat /etc/hostname)
